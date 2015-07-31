@@ -1,0 +1,12 @@
+#!/usr/bin/sh
+
+# tor (torrent) - takes a .torrent filepath or magnet link uri as the only argument
+# downloads torrents to /mnt/usb2
+
+if [ -z "$1" ]
+then
+    echo "Usage: torrent path/to/file"
+    exit 1
+fi
+
+rtorrent $1
