@@ -1,0 +1,11 @@
+#!/usr/bin/sh
+
+# dl - download file at the specified address
+
+if [ -z "$1" ]
+then
+    echo "Usage: dl /path/to/file"
+    exit 1
+fi
+
+curl -O $1

@@ -1,0 +1,20 @@
+#!/usr/bin/sh
+
+# fyy - copy/yank file contents to the xclipboard
+
+if [ -z "$1" ]
+then 
+    echo "Usage: fcopy /path/to/file"
+    exit 1
+fi
+
+FILE="$1"
+
+# determine if file exists
+if [ ! -f $FILE ]
+then
+    echo "Error: The file specified does not exist"
+    exit 1
+fi
+
+xclip -in -selection c $FILE

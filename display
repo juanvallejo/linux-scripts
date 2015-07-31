@@ -1,0 +1,14 @@
+#!/usr/bin/sh
+
+# use feh to display an image file
+# bound to display command.
+
+if [ -z "$1" ]
+then
+    echo "Usage: display /path/to/image"
+    exit 1
+fi
+
+FILE="$(pwd)/$1"
+
+feh $FILE
