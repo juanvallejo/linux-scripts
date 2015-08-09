@@ -1,0 +1,35 @@
+#!/usr/bin/sh
+
+# toggles hdmi device output for sound and video.
+# checks to see if hdmi sound output is available
+# and toggles output devices
+
+if  [[ -z "$1"  ]] ||  [[ $1 != "on" ]] && [[ $1 != "off"  ]]
+then
+    echo  "Usage: hdmi [on | off]"
+    exit 1
+fi
+
+read hdmi_status < /sys/class/drm/card0-HDMI-A-1/status
+
+# check to see that hdmi cable is connected and command is on
+if [[ $hdmi_status == "connected" ]] && [[ $1 == "on" ]]
+then
+    echo "Turning HDMI output on..."
+    xrandr --output HDMI1 --mode 1920x1080 --right-of-eDP1
+    exit 0
+fi
+
+if [[ $hdmi_status == "connected" ]] && [[ $1 == "off" ]]
+then
+    echo "Turning HDMI output off..."
+    xrandr --output HDMI1 --off
+    exit 0
+fi
+
+# check to see if command was valid but hdmi interface not available
+if [[ $hdmi_status == "disconnected" ]]
+then
+    echo "HDMI cable unplugged"
+    exit 1
+fi
