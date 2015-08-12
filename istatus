@@ -1,0 +1,11 @@
+#!/usr/bin/sh
+
+# i3status wrapper for adding custom scripts
+# @author juanvallejo
+
+i3status | while : 
+do
+    read line
+    minf=`minfo`
+    echo "$minf | $line" || exit 1
+done
