@@ -1,0 +1,18 @@
+#!/usr/bin/sh
+
+# minfo - music info
+# prints a string containing the current <artist> - <songname> to stdout
+# requires cmus, cmus-remote
+# @author juanvallejo
+
+songquery=`cmus-remote --server 127.0.0.1:8080 --passwd password -Q 2>&1 |  grep "tag title" -m  1 | sed -E "s/tag\ title//g"`
+
+# determine if cmus is not open
+if [[ $songquery == "" ]]
+then
+    echo "Silence"
+    exit 1
+fi
+
+artistquery=`cmus-remote --server 127.0.0.1:8080 --passwd password -Q |  grep "tag artist" -m  1 | sed -E "s/tag\ artist//g"`
+echo $artistquery" - "$songquery
