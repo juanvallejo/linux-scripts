@@ -15,4 +15,4 @@ then
 fi
 
 artistquery=`cmus-remote --server 127.0.0.1:8080 --passwd password -Q |  grep "tag artist" -m  1 | sed -E "s/tag\ artist//g"`
-echo $artistquery" - "$songquery
+echo $artistquery" -"$songquery
