@@ -10,7 +10,7 @@ songquery=`cmus-remote --server 127.0.0.1:8080 --passwd password -Q 2>&1 |  grep
 # determine if cmus is not open
 if [[ $songquery == "" ]]
 then
-    echo "Silence"
+    echo ""
     exit 1
 fi
 
