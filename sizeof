@@ -1,0 +1,61 @@
+#!/home/juanvallejo/.nvm/v0.10.40/bin/node
+
+/**
+ * sizeof - calculates size of files and directories and outputs converted format
+ * to stdout in bytes, kilobytes, megabytes, gigabytes, terabytes, or petabytes.
+ * Supports output up to petabytes.
+ * I only have 2.7GB left so if it outputs anything bigger than 
+ * 2154823680 bytes I'm fucked.
+ *
+ * @author juanvallejo
+*/
+
+if(process.argv.length < 3) {
+    console.error('Usage: sizeof <path/to/file>');
+    process.exit(1);
+}
+
+var exec    = require('child_process').exec;
+var fs      = require('fs');
+
+if(fs.lstatSync(process.argv[2]).isDirectory()) { 
+    exec('du -ch ' + '"' + process.argv[2] + '" | grep "total" | sed -E "s/\ttotal//"', function(err, stdout, stderr) {
+
+        if(err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        console.log(stdout.substring(0, stdout.length - 1));
+
+    });
+
+} else {
+    exec('stat -c %s ' + '"' + process.argv[2] + '"', function(err, stdout, stderr) {
+
+        if(err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        calc_size(stdout);
+
+    });
+}
+
+// calculate size of file given its
+// size in bytes
+function calc_size(bsize) {
+
+    var defs = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    var counter = 0;
+
+    while(bsize > 1024) {
+        bsize /= 1024;
+        counter++;
+    }
+
+    console.log((Math.round(bsize * 100) / 100) + defs[counter]);
+
+}
+
