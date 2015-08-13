@@ -3,10 +3,12 @@
 # tor (torrent) - takes a .torrent filepath or magnet link uri as the only argument
 # downloads torrents to /mnt/usb2
 
+# if no args read from stdin
 if [ -z "$1" ]
 then
-    echo "Usage: torrent path/to/file"
-    exit 1
+    read url
+    rtorrent $url
+    exit 0
 fi
 
 rtorrent $1
