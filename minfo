@@ -15,4 +15,11 @@ then
 fi
 
 artistquery=`cmus-remote --server 127.0.0.1:8080 --passwd password -Q |  grep "tag artist" -m  1 | sed -E "s/tag\ artist//g"`
+
+# check for albumartist tag if artist tag is blank
+if [[ -n "$artistquery"  ]]
+then
+	artistquery=`cmus-remote --server 127.0.0.1:8080 --passwd password -Q |  grep "tag albumartist" -m  1 | sed -E "s/tag\ albumartist//g"`
+fi
+
 echo $artistquery" -"$songquery
