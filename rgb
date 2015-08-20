@@ -1,0 +1,42 @@
+#!/home/juanvallejo/.nvm/v0.10.40/bin/node
+
+// rgb - converts hex color codes to rgb values
+// @author juanvallejo
+
+// check to see if an argument was passed
+if(process.argv.length < 3) {
+    console.error('Usage: rgb <hex>');
+    process.exit(1);
+}
+
+// convert arg to url
+var hex = process.argv[2].replace(/\#/gi, '');
+
+var http = require('http');
+
+http.get('http://rgb.to/save/json/color/' + hex, function(response) {
+
+    var data = '';
+
+    response.on('data', function(chunk) {
+        data += chunk;
+    });
+
+    response.on('end', function() {
+        
+        var color;
+        var rgb;
+
+        try {
+            color = JSON.parse(data);
+            rgb = 'rgb(' + color.rgb.r + ',' +  color.rgb.g + ',' + color.rgb.b + ')';
+            process.stdout.write(rgb);
+            process.exit(0);
+        } catch(e) {
+            console.error(e);
+            process.exit(1);
+        }
+
+    });
+
+});
