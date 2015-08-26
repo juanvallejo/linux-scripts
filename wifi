@@ -1,0 +1,46 @@
+#!/usr/bin/sh
+
+# wifi - netctl profile manager
+
+# check for empty arguments
+if [[ -z "$1" ]]
+then
+	echo "Usage: wifi <wifi-profile | stop | ls>"
+	exit 1
+fi
+
+CURRENT=`sudo netctl list | grep "\*" -m 1 | sed -E "s/\*\ //"`
+
+if [[ -z $CURRENT ]] || [[ $CURRENT == "" ]]
+then
+	if [[ "$1" == "ls" ]] || [[ "$1" == "stop" ]]
+	then
+		echo "No wifi profile in use."
+		exit 0
+	else
+		# assume wifi-profile
+		echo "Connecting..."
+		sudo netctl start "$1"
+		exit 0
+	fi
+fi
+
+# check to see if stop
+if [[ "$1" == "stop" ]]
+then
+	echo "Stopping profile '$CURRENT'"
+	sudo netctl stop $CURRENT
+	exit 0
+fi
+
+# check to see if current profile matches the one requested
+if [[ "$1" == $CURRENT ]]
+then
+	echo "You are already connected to this profile."
+	exit 1
+fi
+
+# if we made it this far, disconnect current profile and connect the new one
+echo "Connecting..."
+sudo netctl stop $CURRENT && sudo netctl start "$1"
+	
