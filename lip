@@ -1,0 +1,16 @@
+#!/usr/bin/sh
+
+# lip - get local ip address as a single line output
+# returns stream without linebreak
+# Linux only
+
+IP=`ip addr | grep -E "inet\ [0-9\.]+\/24" -o | sed -E "s/\/24//" | sed -E "s/inet\ //"`
+
+# check if no ip
+if [[ -z "$IP" ]]
+then
+    echo "No IP has been assigned."
+    exit 1
+fi
+
+echo $IP | xargs echo -n
