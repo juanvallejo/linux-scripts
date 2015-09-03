@@ -1,0 +1,19 @@
+#!/usr/local/bin/node
+
+// phys.grav_froce - Gravitational force between two objects
+// requires two params representing object mass, and a third param
+// representing distance between two objects.
+
+if(process.argv.length < 5) {
+    console.log('Usage: phys.grav_force <mass_one> <mass_two> <distance>');
+    process.exit(1);
+}
+
+var G           = 0.0000000000674;
+var m1          = process.argv[2];
+var m2          = process.argv[3];
+var distance    = process.argv[4];
+
+var force = (G * m1 * m2) / Math.exp(distance, 2);
+
+console.log(force);
