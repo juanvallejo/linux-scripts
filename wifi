@@ -9,11 +9,18 @@ then
 	exit 1
 fi
 
+# check to see if ls
+if [[ "$1" == "ls" ]]
+then
+    echo `sudo netctl list`
+    exit 0
+fi
+
 CURRENT=`sudo netctl list | grep "\*" -m 1 | sed -E "s/\*\ //"`
 
 if [[ -z $CURRENT ]] || [[ $CURRENT == "" ]]
 then
-	if [[ "$1" == "ls" ]] || [[ "$1" == "stop" ]]
+	if [[ "$1" == "stop" ]]
 	then
 		echo "No wifi profile in use."
 		exit 0
