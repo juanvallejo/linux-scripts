@@ -1,10 +1,10 @@
-#!/home/juanvallejo/.nvm/v0.10.40/bin/node
+#!/usr/bin/env node
 
 /**
  * sizeof - calculates size of files and directories and outputs converted format
  * to stdout in bytes, kilobytes, megabytes, gigabytes, terabytes, or petabytes.
  * Supports output up to petabytes.
- * I only have 2.7GB left so if it outputs anything bigger than 
+ * I only have 2.7GB left so if it outputs anything bigger than
  * 2154823680 bytes I'm fucked.
  *
  * @author juanvallejo
@@ -18,7 +18,7 @@ if(process.argv.length < 3) {
 var exec    = require('child_process').exec;
 var fs      = require('fs');
 
-if(fs.lstatSync(process.argv[2]).isDirectory()) { 
+if(fs.lstatSync(process.argv[2]).isDirectory()) {
     exec('du -ch ' + '"' + process.argv[2] + '" | grep "total" | sed -E "s/\ttotal//"', function(err, stdout, stderr) {
 
         if(err) {
@@ -58,4 +58,3 @@ function calc_size(bsize) {
     console.log((Math.round(bsize * 100) / 100) + defs[counter]);
 
 }
-

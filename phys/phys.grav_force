@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
 // phys.grav_froce - Gravitational force between two objects
 // requires two params representing object mass, and a third param
