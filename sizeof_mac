@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# sizeof - (mac) retrieve size of folder or file and return size in terrabytes, gigabytes, megabytes, kilobytes, or bytes.
+# @juanvallejo
+
+if [[ -z $1 ]];
+then
+	echo "Usage: sizeof <filename | dirname>"
+	exit 1
+fi
+
+if [[ ! -f $1 ]] && [[ ! -d $1 ]];
+then
+	echo "File or directory \""$1"\" not found."
+	exit 1
+fi
+
+function calc_size {
+
+	size="bytes"
+	amt=$1
+
+	if [[ -z $amt ]] || [[ $amt -lt 1024 ]]
+	then
+		echo "$amt "$size
+		exit 0
+	fi
+
+	size="kilobytes"
+
+	if [[ $((amt/1024)) -lt 1024 ]]
+	then
+		echo "$((amt/1024)) $size"
+		exit 0
+	fi
+
+	size="megabytes"
+
+	if [[ $((amt/1024/1024)) -lt 1024 ]]
+	then
+		echo "$((amt/1024/1024)) $size"
+		exit 0
+	fi
+	
+	size="gigabytes"
+
+	if [[ $((amt/1024/1024/1024)) -lt 1024 ]]
+	then
+		echo "$((amt/1024/1024/1024)) $size"
+		exit 0
+	fi
+
+	size="terrabytes"
+	echo "$((amt/1024/1024/1024/1024)) $size"
+	exit 0
+}
+
+export count=0;
+find $1 -type f | { while read line;
+do
+	line=$(stat -f%z "$line")
+	export count=$((count+line));
+done; calc_size $count; }
+
