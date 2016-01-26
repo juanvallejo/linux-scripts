@@ -1,4 +1,4 @@
-#!/home/juanvallejo/.nvm/v0.10.40/bin/node
+#!/usr/bin/env node
 
 // rgb - converts hex color codes to rgb values
 // @author juanvallejo
@@ -23,7 +23,7 @@ http.get('http://rgb.to/save/json/color/' + hex, function(response) {
     });
 
     response.on('end', function() {
-        
+
         var color;
         var rgb;
 
